@@ -1,0 +1,7 @@
+config BR2_PACKAGE_NETWORK_MANAGER_WIREGUARD
+    bool "network-manager-wireguard"
+    depends on BR2_PACKAGE_NETWORK_MANAGER
+    depends on BR2_PACKAGE_WIREGUARD
+    depends on BR2_PACKAGE_BASH
+    help
+	This project is a VPN Plugin for NetworkManager that handles client-side WireGuard connections.

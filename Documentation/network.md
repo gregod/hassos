@@ -79,6 +79,46 @@ dns=8.8.8.8;8.8.4.4;
 ```
 For address, the value before the comma is the IP address and subnet prefix bitlength; the second value is the IP address of the gateway.
 
+### Wireguard VPN
+
+A [wireguard](https://www.wireguard.com/) VPN plugin is enabled in NetworkManager which allows setting up a VPN using a network configuration file.  See the [plugins site](https://github.com/max-moser/network-manager-wireguard) or adapt the configuration below:
+
+```ini
+[connection]
+id=wireguard
+uuid=8298d5ea-73d5-499b-9376-57409a7a2331
+type=vpn
+permissions=
+
+[vpn]
+local-ip4=10.0.0.7/32
+local-listen-port=21841
+local-private-key=
+peer-allowed-ips=10.0.0.0/24
+peer-endpoint=demo.wireguard.com
+peer-public-key=
+peer-persistent-keep-alive=25
+
+service-type=org.freedesktop.NetworkManager.wireguard
+
+[ipv4]
+dns-search=
+method=auto
+route=10.0.0.0/24
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+ip6-privacy=0
+method=auto
+
+```
+
+Unlike *wq-quick* no default routes for allowed-ips are created so make sure explicitly to add any desired routes to ipv4.route.
+
+NetworkManager does not support the autostart directive for a VPN configuration. Instead the UUID of the VPN connection must be added as secondary  (e.g. `secondaries=8298d5ea-73d5-499b-9376-57409a7a2331`) under the `[connection]` section of a network interface (the default or your wifi profile). 
+
+
 ## Tips
 
 ### Reset network
